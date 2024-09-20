@@ -1,10 +1,12 @@
 import { Button } from "@radix-ui/themes";
+import Navbar from "./navbar";
 
 const Home = () => {
   return (
-    <div>
+    <main>
+      <Navbar />
       <Button>Button</Button>
-    </div>
+    </main>
   );
 };
 
