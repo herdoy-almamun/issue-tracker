@@ -6,7 +6,7 @@ const IssueFrom = dynamic(() => import("@/components/IssueFrom"), {
 
 const NewIssue = () => {
   return (
-    <div>
+    <div className="px-3">
       <IssueFrom />
     </div>
   );

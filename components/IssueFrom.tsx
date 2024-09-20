@@ -1,12 +1,13 @@
 "use client";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { Issue } from "@prisma/client";
 import { Button, TextField } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
 import Joi from "joi";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 
-interface Issue {
+interface FormData {
   title: string;
   description: string;
 }
@@ -26,7 +27,7 @@ const IssueFrom = ({ issue }: Props) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<Issue>({
+  } = useForm<FormData>({
     resolver: joiResolver(issueSchema),
     defaultValues: {
       title: issue?.title,

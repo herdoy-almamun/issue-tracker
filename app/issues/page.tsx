@@ -1,7 +1,7 @@
 import { Button, Container } from "@radix-ui/themes";
 import Link from "next/link";
 
-const Issues = () => {
+const Issues = async () => {
   return (
     <Container>
       <div className="space-y-5">
@@ -11,7 +11,7 @@ const Issues = () => {
           </Link>
         </div>
         <div>
-          <p>Issues....</p>
+          <p>Issues...</p>
         </div>
       </div>
     </Container>
