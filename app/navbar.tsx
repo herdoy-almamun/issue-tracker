@@ -12,7 +12,7 @@ const navItems = [
 const Navbar = () => {
   const currentPath = usePathname();
   return (
-    <div className="bg-gray-200 mb-5 px-3 lg:px-0">
+    <div className="bg-gray-200 mb-5 px-3">
       <Container>
         <nav className="h-16 flex items-center justify-between">
           <ul className="flex items-center gap-6">
