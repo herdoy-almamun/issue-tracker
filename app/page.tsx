@@ -1,5 +1,11 @@
+import { Button } from "@radix-ui/themes";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Button>Button</Button>
+    </div>
+  );
 };
 
 export default Home;
