@@ -1,25 +1,15 @@
 "use client";
+import { IssueInterface, issueSchema } from "@/utils/Issue";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { Issue } from "@prisma/client";
 import { Button, TextField } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
-import Joi from "joi";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
-
-interface FormData {
-  title: string;
-  description: string;
-}
 
 interface Props {
   issue?: Issue;
 }
-
-const issueSchema = Joi.object({
-  title: Joi.string().min(1).max(255).required().label("Title"),
-  description: Joi.string().min(1).max(10000).required().label("Description"),
-});
 
 const IssueFrom = ({ issue }: Props) => {
   const {
@@ -27,7 +17,7 @@ const IssueFrom = ({ issue }: Props) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<IssueInterface>({
     resolver: joiResolver(issueSchema),
     defaultValues: {
       title: issue?.title,
