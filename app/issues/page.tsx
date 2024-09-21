@@ -1,3 +1,4 @@
+import IssueTable from "@/components/issue-table";
 import prisma from "@/prisma/client";
 import { Button, Container } from "@radix-ui/themes";
 import Link from "next/link";
@@ -13,9 +14,7 @@ const Issues = async () => {
           </Link>
         </div>
         <div>
-          {issues.map((issue) => (
-            <p key={issue.id}> {issue.title} </p>
-          ))}
+          <IssueTable issues={issues} />
         </div>
       </div>
     </Container>
