@@ -1,5 +1,8 @@
+"use client";
 import { Issue } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaSortUp } from "react-icons/fa";
 import IssueStatusBadeg from "./issue-status-badeg";
 
 interface Props {
@@ -21,6 +24,27 @@ const columns: { lable: string; value: keyof Issue; className: string }[] = [
 ];
 
 const IssueTable = ({ issues }: Props) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const handleSort = (value: keyof Issue) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (searchParams.get("orderBy")) {
+      params.set("orderBy", value);
+    } else {
+      params.append("orderBy", value);
+    }
+    const query = params.toString();
+    return router.push("?" + query);
+  };
+
+  const renderSortIcon = (value: keyof Issue) => {
+    const params = new URLSearchParams(searchParams.toString());
+    return (
+      params.get("orderBy") === value && <FaSortUp className="inline-block" />
+    );
+  };
+
   return (
     <Table.Root variant="surface">
       <Table.Header>
@@ -28,9 +52,10 @@ const IssueTable = ({ issues }: Props) => {
           {columns.map((column) => (
             <Table.ColumnHeaderCell
               key={column.lable}
+              onClick={() => handleSort(column.value)}
               className={column.className}
             >
-              {column.lable}
+              {column.lable} {renderSortIcon(column.value)}
             </Table.ColumnHeaderCell>
           ))}
         </Table.Row>

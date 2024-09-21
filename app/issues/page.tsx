@@ -1,19 +1,26 @@
 import IssueTable from "@/components/issue-table";
 import Pagination from "@/components/pagination";
 import prisma from "@/prisma/client";
+import { Issue } from "@prisma/client";
 import { Button, Container } from "@radix-ui/themes";
 import Link from "next/link";
 
 interface Props {
   searchParams: {
     page: string;
+    orderBy: keyof Issue;
   };
 }
 
 const Issues = async ({ searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
   const pageSize = 5;
+  const page = parseInt(searchParams.page) || 1;
+  const orderBy = {
+    [searchParams.orderBy ? searchParams.orderBy : "title"]: "asc",
+  };
+
   const issues = await prisma.issue.findMany({
+    orderBy,
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
