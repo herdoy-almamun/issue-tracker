@@ -1,7 +1,9 @@
+import prisma from "@/prisma/client";
 import { Button, Container } from "@radix-ui/themes";
 import Link from "next/link";
 
 const Issues = async () => {
+  const issues = await prisma.issue.findMany();
   return (
     <Container>
       <div className="space-y-5">
@@ -11,7 +13,9 @@ const Issues = async () => {
           </Link>
         </div>
         <div>
-          <p>Issues...</p>
+          {issues.map((issue) => (
+            <p key={issue.id}> {issue.title} </p>
+          ))}
         </div>
       </div>
     </Container>
