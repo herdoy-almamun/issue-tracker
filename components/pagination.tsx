@@ -23,7 +23,7 @@ const Pagination = ({ itemsCount, pageSize, currentPage }: Poprs) => {
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
+    page === 1 ? params.delete("page") : params.set("page", page.toString());
     const query = params.toString();
     router.push("?" + query);
   };
