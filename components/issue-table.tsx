@@ -1,5 +1,6 @@
 import { Issue } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
+import IssueStatusBadeg from "./issue-status-badeg";
 
 interface Props {
   issues: Issue[];
@@ -40,12 +41,12 @@ const IssueTable = ({ issues }: Props) => {
           <Table.Row key={issue.id}>
             <Table.Cell>
               {issue.title}
-              <div className="block md:hidden">
-                <p> {issue.status} </p>
+              <div className="block mt-1 md:hidden">
+                <IssueStatusBadeg status={issue.status} />
               </div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
-              {issue.status}
+              <IssueStatusBadeg status={issue.status} />
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
               {issue.createdAt.toDateString()}
