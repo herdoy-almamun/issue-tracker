@@ -4,6 +4,7 @@ import { Table } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaSortUp } from "react-icons/fa";
 import IssueStatusBadeg from "./issue-status-badeg";
+import Link from "next/link";
 
 interface Props {
   issues: Issue[];
@@ -65,7 +66,7 @@ const IssueTable = ({ issues }: Props) => {
         {issues.map((issue) => (
           <Table.Row key={issue.id}>
             <Table.Cell>
-              {issue.title}
+              <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
               <div className="block mt-1 md:hidden">
                 <IssueStatusBadeg status={issue.status} />
               </div>
