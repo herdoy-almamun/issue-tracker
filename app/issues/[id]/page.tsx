@@ -5,6 +5,7 @@ import { Button, Card, Container, Flex, Grid } from "@radix-ui/themes";
 import Link from "next/link";
 import { AiOutlineDelete } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
+import IssueDeleteDialog from "./issue-delete-dialog";
 
 interface Props {
   params: {
@@ -42,9 +43,7 @@ const IssueDetails = async ({ params }: Props) => {
                 Edit Issue
               </Link>
             </Button>
-            <Button color="red">
-              <AiOutlineDelete className="text-xl" /> Delete Issue
-            </Button>
+            <IssueDeleteDialog issueId={issue.id} />
           </Flex>
         </Grid>
       </Container>
