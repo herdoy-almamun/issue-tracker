@@ -15,42 +15,50 @@ interface Props {
 }
 
 const Issues = async ({ searchParams }: Props) => {
-  const pageSize = 5;
-  const page = parseInt(searchParams.page) || 1;
-  const where = {
-    status: searchParams.status ? searchParams.status : undefined,
-  };
-  const orderBy = {
-    [searchParams.orderBy ? searchParams.orderBy : "title"]: "asc",
-  };
+  try {
+    const pageSize = 5;
+    const page = parseInt(searchParams.page) || 1;
+    const where = {
+      status: searchParams.status ? searchParams.status : undefined,
+    };
+    const orderBy = {
+      [searchParams.orderBy ? searchParams.orderBy : "title"]: "asc",
+    };
 
-  const issues = await prisma.issue.findMany({
-    where,
-    orderBy,
-    skip: (page - 1) * pageSize,
-    take: pageSize,
-  });
-  const issueCount = await prisma.issue.count({ where });
-  return (
-    <Container>
-      <div className="space-y-5 pb-6">
-        <Flex align="center" justify="between">
-          <IssueStatusFilter />
-          <Link href="/issues/new">
-            <Button>Add Issue</Button>
-          </Link>
-        </Flex>
-        <div className="space-y-4">
-          <IssueTable issues={issues} />
-          <Pagination
-            itemsCount={issueCount}
-            pageSize={pageSize}
-            currentPage={page}
-          />
+    const issues = await prisma.issue.findMany({
+      where,
+      orderBy,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+    const issueCount = await prisma.issue.count({ where });
+    return (
+      <Container>
+        <div className="space-y-5 pb-6">
+          <Flex align="center" justify="between">
+            <IssueStatusFilter />
+            <Link href="/issues/new">
+              <Button>Add Issue</Button>
+            </Link>
+          </Flex>
+          <div className="space-y-4">
+            <IssueTable issues={issues} />
+            <Pagination
+              itemsCount={issueCount}
+              pageSize={pageSize}
+              currentPage={page}
+            />
+          </div>
         </div>
-      </div>
-    </Container>
-  );
+      </Container>
+    );
+  } catch (error) {
+    return (
+      <Container>
+        <p className="text-red-500 text-xl">Something went worn!</p>
+      </Container>
+    );
+  }
 };
 
 export default Issues;

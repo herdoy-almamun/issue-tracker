@@ -3,7 +3,6 @@ import IssueStatusBadeg from "@/components/issue-status-badeg";
 import prisma from "@/prisma/client";
 import { Button, Card, Container, Flex, Grid } from "@radix-ui/themes";
 import Link from "next/link";
-import { AiOutlineDelete } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
 import IssueDeleteDialog from "./issue-delete-dialog";
 

@@ -1,11 +1,16 @@
+"use client";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 interface Props {
   issueId: string;
 }
 
 const IssueDeleteDialog = ({ issueId }: Props) => {
+  const router = useRouter();
   return (
     <Dialog.Root>
       <Dialog.Trigger>
@@ -27,7 +32,20 @@ const IssueDeleteDialog = ({ issueId }: Props) => {
             </Button>
           </Dialog.Close>
           <Dialog.Close>
-            <Button color="red">Delete</Button>
+            <Button
+              onClick={() => {
+                axios
+                  .delete(`/api/issues/${issueId}`)
+                  .then(() => {
+                    toast.success("Issue deleted successfully.");
+                    setTimeout(() => router.push("/issues"), 1000);
+                  })
+                  .catch(() => toast.error("Something went worn!"));
+              }}
+              color="red"
+            >
+              Delete
+            </Button>
           </Dialog.Close>
         </Flex>
       </Dialog.Content>
