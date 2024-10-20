@@ -4,6 +4,7 @@ import { useCurrentAuthPageStore } from "@/store";
 import { loginSchema } from "@/utils/Auth";
 import { UserInterface, userSchema } from "@/utils/User";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { User } from "@prisma/client";
 import {
   Button,
   Card,
@@ -12,12 +13,18 @@ import {
   Grid,
   TextField,
 } from "@radix-ui/themes";
+import axios from "axios";
+import { signIn, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import SignInOptions from "./sign-in-options";
 import SignupNav from "./signup-nav";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const current = useCurrentAuthPageStore((s) => s.current);
+  const { status } = useSession();
+  const router = useRouter();
 
   const {
     register,
@@ -27,6 +34,41 @@ const SignIn = () => {
     resolver: joiResolver(current === "Login" ? loginSchema : userSchema),
   });
 
+  const onSubmit = handleSubmit((data) => {
+    const { firstName, lastName, email, password } = data;
+    if (current === "Signup") {
+      axios
+        .post<User>("/api/users", {
+          name: `${firstName} ${lastName}`,
+          email,
+          password,
+        })
+        .then(() => {
+          toast.success("Sign Up Success!");
+          signIn("credentials", { email, password, callbackUrl: "/issues" });
+        })
+        .catch(() => toast.error("Something went worn!"));
+    }
+    if (current === "Login") {
+      signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/issues",
+        redirect: false,
+      }).then((res) => {
+        if (res?.ok) {
+          toast.success("Login Success!");
+          router.push("/issues");
+        }
+        if (res?.error) {
+          toast.error("Invalid username or password");
+        }
+      });
+    }
+  });
+
+  if (status === "authenticated") return router.push("/");
+
   return (
     <>
       <SignupNav />
@@ -34,10 +76,7 @@ const SignIn = () => {
         <Flex align="center" justify="center" className="h-[calc(100vh-64px)]">
           <Card className="w-[450px]">
             <SignInOptions />
-            <form
-              onSubmit={handleSubmit((data) => console.log(data))}
-              className="py-3 mt-5 space-y-3"
-            >
+            <form onSubmit={onSubmit} className="py-3 mt-5 space-y-3">
               {current === "Signup" && (
                 <Grid columns="2" gap="2">
                   <div className="space-y-2">
@@ -76,6 +115,7 @@ const SignIn = () => {
               <div className="space-y-2">
                 <TextField.Root
                   {...register("password")}
+                  type="password"
                   placeholder="Password"
                 />
                 {errors.password && (
@@ -84,7 +124,10 @@ const SignIn = () => {
                   </p>
                 )}
               </div>
-              <Button className="!w-full"> {current} </Button>
+              <Button type="submit" className="!w-full">
+                {" "}
+                {current}{" "}
+              </Button>
             </form>
             <AuthOptions />
           </Card>
