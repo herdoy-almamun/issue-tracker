@@ -1,4 +1,6 @@
+"use client";
 import { Button, Grid } from "@radix-ui/themes";
+import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
 const AuthOptions = () => {
@@ -9,7 +11,11 @@ const AuthOptions = () => {
         <p className="text-center">or</p>
         <div className="h-[1px] bg-gray-300" />
       </Grid>
-      <Button variant="soft" className="!w-full !mt-3">
+      <Button
+        onClick={() => signIn("google", { callbackUrl: "/issues" })}
+        variant="soft"
+        className="!w-full !mt-3"
+      >
         <FcGoogle className="text-xl mr-1" /> Continue with Google
       </Button>
     </div>
