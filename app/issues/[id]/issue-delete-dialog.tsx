@@ -1,6 +1,7 @@
 "use client";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { AiOutlineDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -11,6 +12,7 @@ interface Props {
 
 const IssueDeleteDialog = ({ issueId }: Props) => {
   const router = useRouter();
+  const { status } = useSession();
   return (
     <Dialog.Root>
       <Dialog.Trigger>
@@ -34,13 +36,17 @@ const IssueDeleteDialog = ({ issueId }: Props) => {
           <Dialog.Close>
             <Button
               onClick={() => {
-                axios
-                  .delete(`/api/issues/${issueId}`)
-                  .then(() => {
-                    toast.success("Issue deleted successfully.");
-                    setTimeout(() => router.push("/issues"), 1000);
-                  })
-                  .catch(() => toast.error("Something went worn!"));
+                if (status === "unauthenticated") {
+                  toast.error("you can't perform this action!");
+                } else {
+                  axios
+                    .delete(`/api/issues/${issueId}`)
+                    .then(() => {
+                      toast.success("Issue deleted successfully.");
+                      setTimeout(() => router.push("/issues"), 1000);
+                    })
+                    .catch(() => toast.error("Something went worn!"));
+                }
               }}
               color="red"
             >
