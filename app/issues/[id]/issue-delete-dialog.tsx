@@ -43,6 +43,7 @@ const IssueDeleteDialog = ({ issueId }: Props) => {
                     .delete(`/api/issues/${issueId}`)
                     .then(() => {
                       toast.success("Issue deleted successfully.");
+                      router.refresh();
                       setTimeout(() => router.push("/issues"), 1000);
                     })
                     .catch(() => toast.error("Something went worn!"));
