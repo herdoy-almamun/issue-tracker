@@ -20,14 +20,17 @@ const IssueChart = ({ open, inProgress, closed }: Props) => {
     {
       name: "Open",
       value: open,
+      color: "red",
     },
     {
       name: "In Progress",
       value: inProgress,
+      color: "purple",
     },
     {
       name: "Closed",
       value: closed,
+      color: "green",
     },
   ];
   return (
