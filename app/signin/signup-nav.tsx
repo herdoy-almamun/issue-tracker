@@ -4,7 +4,7 @@ import { IoBug } from "react-icons/io5";
 
 const SignupNav = () => {
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-200 px-4">
       <Container>
         <Flex align="center" className="h-16">
           <Link href="/">
