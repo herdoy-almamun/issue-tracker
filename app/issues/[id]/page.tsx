@@ -7,12 +7,17 @@ import Link from "next/link";
 import { LiaEdit } from "react-icons/lia";
 import AssignToUser from "./assign-to-user";
 import IssueDeleteDialog from "./issue-delete-dialog";
+import { cache } from "react";
 
 interface Props {
   params: {
     id: string;
   };
 }
+
+const fetchIssue = cache((issueId: string) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
 
 const IssueDetails = async ({ params }: Props) => {
   try {
@@ -60,5 +65,14 @@ const IssueDetails = async ({ params }: Props) => {
     return <InvalidIssueId />;
   }
 };
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchIssue(params.id);
+
+  return {
+    title: issue?.title,
+    description: "Details of issue " + issue?.id,
+  };
+}
 
 export default IssueDetails;
