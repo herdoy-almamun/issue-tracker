@@ -3,7 +3,9 @@
 import useAssignIssue from "@/hooks/useAssignIssue";
 import useUsers from "@/hooks/useUsers";
 import { Button, DropdownMenu } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
 import { FaCheck } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 interface Props {
   issueId: string;
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const AssignToUser = ({ issueId, userId, userEmail }: Props) => {
+  const { status } = useSession();
   const { data } = useUsers(userEmail);
   const { mutate } = useAssignIssue(issueId);
 
@@ -25,7 +28,16 @@ const AssignToUser = ({ issueId, userId, userEmail }: Props) => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         {data?.map((user) => (
-          <DropdownMenu.Item key={user.id} onClick={() => mutate(user.email!)}>
+          <DropdownMenu.Item
+            key={user.id}
+            onClick={() => {
+              if (status === "unauthenticated") {
+                toast.error("you can't perform this action");
+              } else {
+                mutate(user.email!);
+              }
+            }}
+          >
             <div className="flex items-center justify-between w-full gap-6">
               <span>{user.name} </span>{" "}
               {user.id === userId ? (
