@@ -72,9 +72,9 @@ const SignIn = () => {
   return (
     <>
       <SignupNav />
-      <Container>
-        <Flex align="center" justify="center" className="h-[calc(100vh-64px)]">
-          <Card className="w-[450px]">
+      <Container className="px-4 mt-10 md:mt-30">
+        <Flex align="center" justify="center">
+          <Card className="w-[450px] sm:mt-10">
             <SignInOptions />
             <form onSubmit={onSubmit} className="py-3 mt-5 space-y-3">
               {current === "Signup" && (
