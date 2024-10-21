@@ -2,8 +2,10 @@ import InvalidIssueId from "@/components/invalid-issue-id";
 import IssueStatusBadeg from "@/components/issue-status-badeg";
 import prisma from "@/prisma/client";
 import { Button, Card, Container, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { LiaEdit } from "react-icons/lia";
+import AssignToUser from "./assign-to-user";
 import IssueDeleteDialog from "./issue-delete-dialog";
 
 interface Props {
@@ -15,6 +17,11 @@ interface Props {
 const IssueDetails = async ({ params }: Props) => {
   try {
     const issue = await prisma.issue.findUnique({ where: { id: params.id } });
+    const session = await getServerSession();
+    const users = await prisma.user.findMany({
+      where: { NOT: { email: session?.user?.email } },
+    });
+
     if (!issue) return null;
     return (
       <Container>
@@ -32,7 +39,12 @@ const IssueDetails = async ({ params }: Props) => {
             <Card>{issue.description}</Card>
           </div>
           <Flex direction="column" gap="3">
-            <Button>Assign to user</Button>
+            <AssignToUser
+              users={users}
+              userId={issue?.userId}
+              issueId={issue.id}
+            />
+
             <Button variant="surface">
               <Link
                 href={`/issues/${issue.id}/new`}
