@@ -21,17 +21,17 @@ const Home = async () => {
       <Container className="px-4">
         <Grid columns={{ initial: "1", md: "2" }} gap="4" height="full">
           <div className="h-[300px] space-y-3 mb-[120px] md:mb-0">
-            <Grid columns="3" gap="4">
+            <Grid columns="3" gap="4" mb="2">
               <Card className="!flex flex-col gap-1 !border !border-red-500 text-red-500">
-                <span className="text-xl">Open</span>
+                <span className="text-md md:text-xl">Open</span>
                 <span className="text-2xl">{open}</span>
               </Card>
               <Card className="!flex flex-col gap-1 !border !border-purple-500 text-purple-500">
-                <span className="text-xl">In Progress</span>
+                <span className="text-md md:text-xl">In Progress</span>
                 <span className="text-2xl">{open}</span>
               </Card>
               <Card className="!flex flex-col gap-1 !border !border-green-500 text-green-500">
-                <span className="text-xl">Closed</span>
+                <span className="text-md md:text-xl">Closed</span>
                 <span className="text-2xl">{open}</span>
               </Card>
             </Grid>

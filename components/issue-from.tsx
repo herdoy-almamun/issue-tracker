@@ -30,13 +30,25 @@ const IssueFrom = ({ issue }: Props) => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    axios
-      .post("/api/issues", data)
-      .then(() => {
-        toast.success("Issue submited successfully.");
-        setTimeout(() => router.push("/issues"), 1000);
-      })
-      .catch(() => toast.error("Something went worn!"));
+    if (issue) {
+      axios
+        .put(`/api/issues/${issue.id}/edit`, data)
+        .then(() => {
+          toast.success("Issue updated successfully.");
+          router.refresh();
+          setTimeout(() => router.push("/issues"), 1000);
+        })
+        .catch(() => toast.error("Something went worn!"));
+    } else {
+      axios
+        .post("/api/issues", data)
+        .then(() => {
+          toast.success("Issue submited successfully.");
+          router.refresh();
+          setTimeout(() => router.push("/issues"), 1000);
+        })
+        .catch(() => toast.error("Something went worn!"));
+    }
   });
 
   return (
