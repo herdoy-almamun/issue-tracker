@@ -18,9 +18,6 @@ const IssueDetails = async ({ params }: Props) => {
   try {
     const issue = await prisma.issue.findUnique({ where: { id: params.id } });
     const session = await getServerSession();
-    const users = await prisma.user.findMany({
-      where: { NOT: { email: session?.user?.email } },
-    });
 
     if (!issue) return null;
     return (
@@ -40,14 +37,14 @@ const IssueDetails = async ({ params }: Props) => {
           </div>
           <Flex direction="column" gap="3">
             <AssignToUser
-              users={users}
+              userEmail={session?.user?.email!}
               userId={issue?.userId}
               issueId={issue.id}
             />
 
             <Button variant="surface">
               <Link
-                href={`/issues/${issue.id}/new`}
+                href={`/issues/${issue.id}/edit`}
                 className="flex items-center"
               >
                 <LiaEdit className="text-xl" />

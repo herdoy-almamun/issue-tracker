@@ -3,6 +3,19 @@ import bcrypt from "bcryptjs";
 import Joi from "joi";
 import { NextRequest, NextResponse } from "next/server";
 
+export const GET = async (request: NextRequest) => {
+  const { email } = await request.json();
+  const users = await prisma.user.findMany({
+    where: {
+      NOT: {
+        email,
+      },
+    },
+  });
+
+  return NextResponse.json(users);
+};
+
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
 

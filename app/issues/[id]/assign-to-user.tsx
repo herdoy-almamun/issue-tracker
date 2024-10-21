@@ -1,18 +1,20 @@
 "use client";
 
-import { User } from "@prisma/client";
+import useAssignIssue from "@/hooks/useAssignIssue";
+import useUsers from "@/hooks/useUsers";
 import { Button, DropdownMenu } from "@radix-ui/themes";
-import axios from "axios";
 import { FaCheck } from "react-icons/fa6";
-import { toast } from "react-toastify";
 
 interface Props {
   issueId: string;
-  users: User[];
+  userEmail: string;
   userId: string | null;
 }
 
-const AssignToUser = ({ issueId, userId, users }: Props) => {
+const AssignToUser = ({ issueId, userId, userEmail }: Props) => {
+  const { data } = useUsers(userEmail);
+  const { mutate } = useAssignIssue(issueId);
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -22,16 +24,8 @@ const AssignToUser = ({ issueId, userId, users }: Props) => {
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        {users.map((user) => (
-          <DropdownMenu.Item
-            key={user.id}
-            onClick={() =>
-              axios
-                .put(`/api/issues/${issueId}`, { email: user.email })
-                .then(() => toast.success("Successfully Assigned!"))
-                .catch(() => toast.error("Somthing went worn!"))
-            }
-          >
+        {data?.map((user) => (
+          <DropdownMenu.Item key={user.id} onClick={() => mutate(user.email!)}>
             <div className="flex items-center justify-between w-full gap-6">
               <span>{user.name} </span>{" "}
               {user.id === userId ? (

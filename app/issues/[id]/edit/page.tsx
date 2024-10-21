@@ -1,6 +1,6 @@
-import dynamic from "next/dynamic";
-import prisma from "@/prisma/client";
 import InvalidIssueId from "@/components/invalid-issue-id";
+import prisma from "@/prisma/client";
+import dynamic from "next/dynamic";
 const IssueFrom = dynamic(() => import("@/components/issue-from"), {
   ssr: false,
 });
