@@ -11,10 +11,12 @@ const Home = async () => {
     where: { status: "IN_PROGRESS" },
   });
   const closed = await prisma.issue.count({ where: { status: "CLOSED" } });
+
   const issues = await prisma.issue.findMany({
     orderBy: { createdAt: "desc" },
     take: 7,
   });
+
   return (
     <Suspense>
       <Navbar />
