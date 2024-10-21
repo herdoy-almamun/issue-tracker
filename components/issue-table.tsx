@@ -1,10 +1,10 @@
 "use client";
 import { Issue } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaSortUp } from "react-icons/fa";
-import IssueStatusBadeg from "./issue-status-badeg";
-import Link from "next/link";
+import IssueStatusBadege from "./issue-status-badege";
 
 interface Props {
   issues: Issue[];
@@ -66,13 +66,18 @@ const IssueTable = ({ issues }: Props) => {
         {issues.map((issue) => (
           <Table.Row key={issue.id}>
             <Table.Cell>
-              <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+              <Link
+                className="text-[var(--accent-9)]"
+                href={`/issues/${issue.id}`}
+              >
+                {issue.title}
+              </Link>
               <div className="block mt-1 md:hidden">
-                <IssueStatusBadeg status={issue.status} />
+                <IssueStatusBadege status={issue.status} />
               </div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
-              <IssueStatusBadeg status={issue.status} />
+              <IssueStatusBadege status={issue.status} />
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
               {issue.createdAt.toDateString()}

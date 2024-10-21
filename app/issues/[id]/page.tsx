@@ -1,5 +1,5 @@
 import InvalidIssueId from "@/components/invalid-issue-id";
-import IssueStatusBadeg from "@/components/issue-status-badeg";
+import IssueStatusBadege from "@/components/issue-status-badege";
 import prisma from "@/prisma/client";
 import { Button, Card, Container, Flex, Grid } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
@@ -27,7 +27,7 @@ const IssueDetails = async ({ params }: Props) => {
             <div className="mb-3">
               <h2 className="text-2xl"> {issue.title} </h2>
               <Flex align="center" gap="3" mt="2">
-                <IssueStatusBadeg status={issue.status} />
+                <IssueStatusBadege status={issue.status} />
                 <span className="text-sm">
                   {issue.createdAt.toDateString()}
                 </span>

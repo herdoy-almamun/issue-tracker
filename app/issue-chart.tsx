@@ -41,7 +41,7 @@ const IssueChart = ({ open, inProgress, closed }: Props) => {
         <YAxis />
         <Bar
           dataKey="value"
-          className="bg-[--accent-9]"
+          className="fill-[var(--accent-9)]"
           activeBar={<Rectangle stroke="blue" />}
         />
       </BarChart>

@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./globals.css";
 import AuthProvider from "./auth-provider";
+import "./globals.css";
 import QueryClientProvider from "./query-client-provider";
 
 const geistSans = localFont({
@@ -36,7 +36,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <QueryClientProvider>
-            <Theme>{children}</Theme>
+            <Theme accentColor="orange">{children}</Theme>
             <ToastContainer />
           </QueryClientProvider>
         </AuthProvider>
