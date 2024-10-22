@@ -16,7 +16,7 @@ const Home = async () => {
   return (
     <Suspense>
       <Navbar />
-      <Container className="px-4">
+      <Container className="px-4 !pb-10">
         <Grid columns={{ initial: "1", md: "2" }} gap="4" height="full">
           <div className="h-[300px] space-y-3 mb-[120px] md:mb-0">
             <IssueSummary open={open} closed={closed} inProgress={inProgress} />
